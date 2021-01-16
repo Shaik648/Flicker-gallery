@@ -1,7 +1,7 @@
 {
-  "name": "photo-gallary",
+  "name": "flicker-gallery-task",
   "version": "1.0.0",
-  "description": "",
+  "description": "Sofster task",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
