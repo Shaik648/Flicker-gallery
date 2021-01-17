@@ -48,15 +48,19 @@ class App extends Component {
           }}
         />
         <div className="images">
-          {photos
-            ? photos.photo.map((photo) => {
-                return (
-                  <div>
-                    <Photo {...photo} getExif={getExif} exif={exif[photo.id]} />
-                  </div>
-                );
-              })
-            : null}
+          {photos ? (
+            photos.photo.map((photo) => {
+              return (
+                <div>
+                  <Photo {...photo} getExif={getExif} exif={exif[photo.id]} />
+                </div>
+              );
+            })
+          ) : (
+            <p style={{ color: "red" }}>
+              Hint :- Please Enter Correct Data or Related Images are Not Found{" "}
+            </p>
+          )}
         </div>
         {(popLoading || loading) && <Modal content="loading..." />}
       </div>
