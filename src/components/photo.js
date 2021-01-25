@@ -1,34 +1,64 @@
-import React from "react";
-// import Modal from "react-modal";
+import React, { useState, useEffect } from "react";
 
-export default ({ farm, server, id, secret, title, getExif, exif }) => {
+export default function Photo({
+  farm,
+  server,
+  id,
+  secret,
+  title,
+  getExif,
+  exif
+}) {
+  // const [imagesState, setImageState] = useState([]);
+
   const url = `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_n.jpg`;
   console.log("data", exif);
 
-  const download = (e) => {
-    console.log(e.target.href);
-    fetch(e.target.href, {
-      method: "GET",
-      headers: {}
-    })
-      .then((response) => {
-        response.arrayBuffer().then(function (buffer) {
-          const data = window.URL.createObjectURL(new Blob([buffer]));
-          const link = document.createElement("a");
-          link.href = data;
-          link.setAttribute("download", "image.jpeg"); //or any other extension
-          document.body.appendChild(link);
-          link.click();
-        });
-      })
-      .catch((err) => {
-        alert("DownLoad Faild");
-      });
-    // window.location.reload();
+  const imageChange = (pic) => {
+    console.log("dataImage", pic);
+    let imageDownLoad = [];
+    imageDownLoad.push(pic);
+    console.log("dataMatter", imageDownLoad);
   };
 
+  const fileDownloadHandler = async (imageDownLoad) => {
+    for (var i = 0; i < imageDownLoad.length; i++) {
+      // console.log(imageDownLoad)
+      const response = await fetch(imageDownLoad[i]);
+      response.blob().then((blob) => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = "picture.jpeg";
+        a.click();
+      });
+    }
+  };
+
+  // const download = (e) => {
+  //   console.log(e.target.href);
+  //   fetch(e.target.href, {
+  //     method: "GET",
+  //     headers: {}
+  //   })
+  //     .then((response) => {
+  //       response.arrayBuffer().then(function (buffer) {
+  //         const data = window.URL.createObjectURL(new Blob([buffer]));
+  //         const link = document.createElement("a");
+  //         link.href = data;
+  //         link.setAttribute("download", "image.jpeg"); //or any other extension
+  //         document.body.appendChild(link);
+  //         link.click();
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       alert("DownLoad Faild");
+  //     });
+
+  // };
+
   // const cancelData = () => {
-  //   document.getElementById("myDIV").style.display = "none";
+  // document.getElementById("myDIV").style.display = "none";
   // };
 
   return (
@@ -43,18 +73,9 @@ export default ({ farm, server, id, secret, title, getExif, exif }) => {
           className="img"
           title={title}
         />
-
-        {exif ? (
-          <div id="myDIV" className="exIf" style={{ display: "flex" }}>
-            <div className="exif" id="downLoad">
-              <a href={url} target="#" download onClick={(e) => download(e)}>
-                Download
-              </a>
-            </div>
-            {/* <div onClick={cancelData}>Cancel</div> */}
-          </div>
-        ) : null}
+        <input type="checkbox" onChange={() => imageChange(url)} />
       </div>
+      <button onClick={fileDownloadHandler}>DownLoad </button>
     </div>
   );
-};
+}
