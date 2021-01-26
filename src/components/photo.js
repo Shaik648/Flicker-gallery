@@ -15,9 +15,14 @@ export default function Photo({
   console.log("data", exif);
 
   const imageChange = (pic) => {
-    console.log("dataImage", pic);
+    if (imageDownLoad.includes(pic)) {
+      let x = imageDownLoad.indexOf(pic);
+      //  alert(x)
+      imageDownLoad.splice(x, 1);
+    } else {
+      imageDownLoad.push(pic);
+    }
 
-    imageDownLoad.push(pic);
     console.log("dataMatter", imageDownLoad);
   };
 
