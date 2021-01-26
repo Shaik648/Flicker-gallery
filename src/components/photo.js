@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+const imageDownLoad = [];
 export default function Photo({
   farm,
   server,
@@ -16,15 +16,15 @@ export default function Photo({
 
   const imageChange = (pic) => {
     console.log("dataImage", pic);
-    let imageDownLoad = [];
+
     imageDownLoad.push(pic);
     console.log("dataMatter", imageDownLoad);
   };
 
-  const fileDownloadHandler = async (imageDownLoad) => {
-    for (var i = 0; i < imageDownLoad.length; i++) {
+  const fileDownloadHandler = async (pictures) => {
+    for (var i = 0; i < pictures.length; i++) {
       // console.log(imageDownLoad)
-      const response = await fetch(imageDownLoad[i]);
+      const response = await fetch(pictures[i]);
       response.blob().then((blob) => {
         let url = window.URL.createObjectURL(blob);
         let a = document.createElement("a");
@@ -75,7 +75,9 @@ export default function Photo({
         />
         <input type="checkbox" onChange={() => imageChange(url)} />
       </div>
-      <button onClick={fileDownloadHandler}>DownLoad </button>
+      <button onClick={() => fileDownloadHandler(imageDownLoad)}>
+        DownLoad{" "}
+      </button>
     </div>
   );
 }
